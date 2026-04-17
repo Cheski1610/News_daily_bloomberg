@@ -50,7 +50,9 @@ def fetch_news() -> list[dict]:
     client = TavilyClient(api_key=TAVILY_API_KEY)
 
     print(f"[{datetime.now():%H:%M:%S}] Obteniendo links desde {SPROUT_URL}...")
-    result = client.extract(urls=[SPROUT_URL], extract_depth="advanced")
+    # Añadir timestamp para evitar caché de Tavily
+    cache_bust_url = f"{SPROUT_URL}?_={int(datetime.now().timestamp())}"
+    result = client.extract(urls=[cache_bust_url], extract_depth="advanced")
 
     raw_content = result["results"][0].get("raw_content", "") if result.get("results") else ""
     candidate_urls = _extract_article_urls(raw_content)[:MAX_ARTICLES + 5]  # pedir extra para compensar posibles no-bloomberglinea
