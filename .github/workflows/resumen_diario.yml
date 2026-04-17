@@ -6,7 +6,7 @@ on:
     #   UTC-3 (Argentina/Uruguay/Brasil) → 23:00 UTC  →  cron: '0 23 * * *'
     #   UTC-4 (Venezuela/Chile/Paraguay) → 00:00 UTC  →  cron: '0 0 * * *'
     #   UTC-5 (Colombia/Perú/Ecuador)    → 01:00 UTC  →  cron: '0 1 * * *'
-    - cron: '0 2 * * *'
+    - cron: '29 2 * * *'
   workflow_dispatch: # permite lanzarlo manualmente desde la pestaña Actions
 
 jobs:
