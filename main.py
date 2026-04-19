@@ -4,7 +4,7 @@ import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
 from dotenv import load_dotenv
@@ -24,7 +24,7 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
 SPROUT_URL = "https://sprout.link/bloomberglinea"
 MAX_ARTICLES = 15
 MODEL = "openai/gpt-oss-120b"
-OUTPUT_DIR = Path("resumenes")
+OUTPUT_DIR = Path(os.getenv("OUTPUT_DIR", "resumenes"))
 MAX_CONTENT_CHARS = 2000  # ~500 tokens; límite del modelo: 8000 TPM
 
 
@@ -170,7 +170,7 @@ def run():
         raise ValueError("Faltan GROQ_API_KEY o TAVILY_API_KEY en el archivo .env")
 
     OUTPUT_DIR.mkdir(exist_ok=True)
-    fecha = datetime.now().strftime("%Y-%m-%d")
+    fecha = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
     output_file = OUTPUT_DIR / f"resumen_{fecha}.json"
 
     articles = fetch_news()
